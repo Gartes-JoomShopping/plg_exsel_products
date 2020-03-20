@@ -12,12 +12,22 @@
 
 defined('_JEXEC') or die;
 
-class plgJshoppingAdminSimilar_Products extends JPlugin {
+class plgJshoppingAdminExsel_Products extends JPlugin {
 
 	private $similarProducts = array();
 	private $post = array();
 	private $j3 = false;
 	private $addon;
+	
+	/**
+	 * plgJshoppingAdminExsel_Products constructor.
+     * @since 3.9
+	 */
+	public function __construct ()
+	{
+	    die(__FILE__ .' '. __LINE__ );
+	}
+	
 	
 	function onBeforeAdminCheckAccessController(&$access) {
 		$app = JFactory::getApplication();
