@@ -11,6 +11,8 @@
 	<description><![CDATA[Developed & Powered by <a href="http://back-end.ga/" target="_blank">back-end.ga/</a>]]></description>
 	<files>
 		<filename plugin="exsel_products">exsel_products.php</filename>
+		<filename>exsel_products_update.xml</filename>
+		<filename>README.md</filename>
 	</files>
 	<updateservers>
 		<server type="extension" name="JoomShopping - Loading products from Excel Update Site">https://raw.githubusercontent.com/gartes/vm_salesdrive/master/vm_salesdrive_update_server.xml</server>
