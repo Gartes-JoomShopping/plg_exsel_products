@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="jshoppingadmin" method="upgrade">
+	<name>JoomShopping - Loading products from Excel</name>
+	<author>back-end.ga</author>
+	<creationDate>20th of March, 2020</creationDate>
+	<copyright>Copyright © By Gartes. All rights reserved.</copyright>
+	<license>Proprietary. Copyrighted Commercial Software</license>
+	<authorEmail>sad.net79@gmail.com</authorEmail>
+	<authorUrl>http://back-end.ga/</authorUrl>
+    <version>4.0</version>
+	<description><![CDATA[Developed & Powered by <a href="http://back-end.ga/" target="_blank">back-end.ga/</a>]]></description>
+	<files>
+		<filename plugin="exsel_products">exsel_products.php</filename>
+	</files>
+</extension>       	         	  	    	        	          	
