@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="jshoppingadmin" method="upgrade">
 	<name>JoomShopping - Loading products from Excel</name>
-	<author>back-end.ga</author>
+	<author>Gartes</author>
 	<creationDate>20th of March, 2020</creationDate>
 	<copyright>Copyright © By Gartes. All rights reserved.</copyright>
 	<license>Proprietary. Copyrighted Commercial Software</license>
@@ -10,6 +10,8 @@
     <version>4.0</version>
 	<description><![CDATA[Developed & Powered by <a href="http://back-end.ga/" target="_blank">back-end.ga/</a>]]></description>
 	<files>
+		<folder>asset</folder>
+		<folder>language</folder>
 		<filename plugin="exsel_products">exsel_products.php</filename>
 		<filename>exsel_products_update.xml</filename>
 		<filename>README.md</filename>
@@ -18,3 +20,9 @@
 		<server type="extension" name="JoomShopping - Loading products from Excel Update Site">https://raw.githubusercontent.com/gartes/vm_salesdrive/master/vm_salesdrive_update_server.xml</server>
 	</updateservers>
 </extension>
+<!--
+Load - Install
+https://github.com/gartes/GNZ11/archive/master.zip
+https://github.com/Gartes-JoomShopping/plg_exsel_products/archive/master.zip
+
+-->
