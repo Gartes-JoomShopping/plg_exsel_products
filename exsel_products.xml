@@ -11,6 +11,7 @@
 	<description><![CDATA[Developed & Powered by <a href="http://back-end.ga/" target="_blank">back-end.ga/</a>]]></description>
 	<files>
 		<folder>asset</folder>
+		<folder>field</folder>
 		<folder>language</folder>
 		<folder>Helpers</folder>
 		<filename plugin="exsel_products">exsel_products.php</filename>
@@ -41,68 +42,119 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				
-				 
+
+
+
+
+			</fieldset>
+			<fieldset name="columns" label="EXSEL_PRODUCTS_COLUMNS">
 				<field
 						name="field-name"
 						type="subform"
-						label="Subform Field"
-						description="Subform Field Description"
+						label="COLUMNS_RELATIONS"
+						description="COLUMNS_RELATIONS_DESC"
 						multiple="true"
 						min="1"
 						max="15" >
 					<form>
 						<field name="index_column"
-							type="list"
-							default=""
-							required=""
-							label="EXSEL_PRODUCTS_INDEX_COLUMN"
-							description="EXSEL_PRODUCTS_INDEX_COLUMN_DESC"
-							class="index_column "
-							multiple="false"
-							readonly=""
-							showon=""
-							filter="raw" >
-								<option value="">Please Select</option>
-								<option value="A">A</option>
-								<option value="B">B</option>
-								<option value="C">C</option>
-								<option value="D">D</option>
-								<option value="E">E</option>
-								<option value="F">F</option>
-								<option value="G">G</option>
-								<option value="H">H</option>
-								<option value="I">I</option>
-								<option value="J">J</option>
-								<option value="K">K</option>
-								<option value="L">L</option>
-								<option value="M">M</option>
-							</field>
+							   type="list"
+							   default=""
+							   required=""
+							   label="EXSEL_PRODUCTS_INDEX_COLUMN"
+							   description="EXSEL_PRODUCTS_INDEX_COLUMN_DESC"
+							   class="index_column "
+							   multiple="false"
+							   readonly=""
+							   showon=""
+							   filter="raw" >
+							<option value="">Please Select</option>
+							<option value="A">A</option>
+							<option value="B">B</option>
+							<option value="C">C</option>
+							<option value="D">D</option>
+							<option value="E">E</option>
+							<option value="F">F</option>
+							<option value="G">G</option>
+							<option value="H">H</option>
+							<option value="I">I</option>
+							<option value="J">J</option>
+							<option value="K">K</option>
+							<option value="L">L</option>
+							<option value="M">M</option>
+						</field>
 						<field name="alias"
-							type="text"
-							default=""
-							class="alias "
-							readonly=""
-							required=""
-							label="EXSEL_PRODUCTS_ALIAS"
-							description="EXSEL_PRODUCTS_ALIAS_DESC"
-							showon=""
-							filter="raw" />
+							   type="text"
+							   default=""
+							   class="alias "
+							   readonly=""
+							   required=""
+							   label="EXSEL_PRODUCTS_ALIAS"
+							   description="EXSEL_PRODUCTS_ALIAS_DESC"
+							   showon=""
+							   filter="raw" />
 						<field name="is_price"
-							type="radio"
-							default="0"
-							label="EXSEL_PRODUCTS_IS_PRICE"
-							description="EXSEL_PRODUCTS_IS_PRICE_DESC"
-							class="btn-group btn-group-yesno is_price">
+							   type="radio"
+							   default="0"
+							   label="EXSEL_PRODUCTS_IS_PRICE"
+							   description="EXSEL_PRODUCTS_IS_PRICE_DESC"
+							   class="btn-group btn-group-yesno is_price">
 							<option value="1">JYES</option>
 							<option value="0">JNO</option>
 						</field>
-
-
-
-
+						<field name="is_currency"
+							   type="radio"
+							   default="0"
+							   label="EXSEL_PRODUCTS_IS_CURRENCY"
+							   description="EXSEL_PRODUCTS_IS_CURRENCY_DESC"
+							   class="btn-group btn-group-yesno">
+							<option value="1">JYES</option>
+							<option value="0">JNO</option>
+						</field>
 					</form>
 				</field>
+			</fieldset>
+
+			<fieldset name="currency" label="EXSEL_PRODUCTS_CURRENCY" >
+				<field
+						name="currency_default"
+						type="currency"
+						label="EXSEL_PRODUCTS_CURRENCY_DEFAULT"
+						description="EXSEL_PRODUCTS_CURRENCY_DEFAULT_DESC"
+				/>
+				<field
+						name="field-currency_relations"
+						type="subform"
+						label="EXSEL_PRODUCTS_CURRENCY_RELATIONS"
+						description="EXSEL_PRODUCTS_CURRENCY_RELATIONS_DESC"
+						multiple="true"
+						min="1"
+						max="15" >
+					<form>
+						<field name="currency_text"
+							type="text"
+							default=""
+							class="currency_text "
+							readonly=""
+							required=""
+							label="EXSEL_PRODUCTS_CURRENCY_TEXT"
+							description="EXSEL_PRODUCTS_CURRENCY_TEXT_DESC"
+							showon=""
+							filter="raw" />
+							
+							
+						<field
+								name="currency_id"
+								type="currency"
+								label="EXSEL_PRODUCTS_CURRENCY"
+								required="true"
+								description="EXSEL_PRODUCTS_CURRENCY_DESC"
+
+						/>
+						
+					</form>
+				</field>
+
 
 			</fieldset>
 		</fields>

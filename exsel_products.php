@@ -149,23 +149,31 @@ class plgJshoppingAdminExsel_Products extends JPlugin {
 		$plugin = \Joomla\CMS\Plugin\PluginHelper::getPlugin('jshoppingadmin', 'exsel_products');
 		$Registry = new \Joomla\Registry\Registry();
 		$params = $Registry->loadObject( json_decode( $plugin->params )) ;
-  
+		$pluginSetting = $params->toArray() ;
+		
+		
+		
 		$step = $params->get('step' , 100 );
 		
 		$columnSlug = new stdClass() ;
 		$fieldNameColumn = $params->get('field-name' , [] ) ;
-		$is_price_alias = false ; 
+		
+		$is_price_alias = false ;
+		$is_currency = false ; 
 		foreach ( $fieldNameColumn as $item)
 		{
 		    $index_column = $item->index_column ;
 		    $columnSlug->{$index_column} = $item->alias ;
 			
-			if( $item->is_price )
+		    if( $item->is_price )
 			{
 				$is_price_alias = $item->alias ;
 			}#END IF
-		    
-		    
+			
+			if( $item->is_currency )
+			{
+				$is_currency = $item->alias ;
+			}#END IF
 		}#END FOREACH
 		
 		$domain = str_replace( '/administrator/' , '' ,  JURI::base());
@@ -193,6 +201,7 @@ class plgJshoppingAdminExsel_Products extends JPlugin {
 		$fileUploadCoreSetting = json_encode( [
 			'DEBAG' => true,
 			'Plugin' => [
+			        'setting' => $pluginSetting ,
 			        'gorup' => 'jshoppingadmin' ,
                     'name' => 'exsel_products' ,
                     'method' => ''
@@ -208,6 +217,7 @@ class plgJshoppingAdminExsel_Products extends JPlugin {
 				'step' => $step ,
 				'columnSlug' => $columnSlug ,
 				'is_price_alias' => $is_price_alias ,
+				'is_currency' => $is_currency ,
 				'manufacturer_code_rewrite' => $params->get('manufacturer_code_rewrite' , 0 ) ,
 			]
         ]);
