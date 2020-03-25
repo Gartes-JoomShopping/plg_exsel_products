@@ -30,7 +30,9 @@ class plgJshoppingAdminExsel_Products extends JPlugin {
 	private $post = array();
 	private $j3 = false;
 	private $addon;
-	
+	private $app ;
+	private $_AjaxSetting ;
+	private $Helper;
 	/**
 	 * plgJshoppingAdminExsel_Products constructor.
      * @since 3.9
@@ -71,6 +73,8 @@ class plgJshoppingAdminExsel_Products extends JPlugin {
 	
 	function onBeforeDisplayOptionsPanel(&$access) {
 //		die(__FILE__ .' '. __LINE__ );
+	
+		
 	}
 	
 	function onBeforeDisplayInfo(&$access) {
@@ -82,11 +86,54 @@ class plgJshoppingAdminExsel_Products extends JPlugin {
 	 * @param $access
 	 * @since version
 	 */
-	function onBeforeAdminCheckAccessController(&$access) {
+	function onBeforeAdminCheckAccessController(&$access) {}
 	
+	private $AjaxResult = [
+	        'updateProductRow' => 0 ,
+    ];
 	
+	private function addFilePrice (   ){
+		JLoader::registerNamespace('ExselProducts\Helpers',JPATH_PLUGINS.'/jshoppingadmin/exsel_products/Helpers',$reset=false,$prepend=false,$type='psr4');
+		$this->Helper = \ExselProducts\Helpers\HelperProduct::instance();
+		$findRes = $this->Helper->getProductListInDb();
+		
+		if( !count( $findRes ) ) { return $this->AjaxResult ; }#END IF
+		$mergeArr = $this->Helper->mergeProduct($findRes) ;
+		$this->AjaxResult['updateProductRow'] = count( $mergeArr ) ;
+		
+		$res = $this->Helper->updateProductPrice( $mergeArr ) ;
+		return $this->AjaxResult ;
 	}
 	
+	/**
+	 * Точка входа Ajax
+	 * @return mixed
+	 *
+	 * @throws Exception
+	 * @since version
+	 */
+	public function onAjaxExsel_products  (){
+		$this->app = \JFactory::getApplication() ;
+	    $this->_AjaxSetting = $this->app->input->get('Setting' , [] , 'ARRAY') ;
+	    $_method = $this->_AjaxSetting['Plugin']['method'] ;
+		try
+		{
+			$res = $this->{$_method}();
+		} catch (Exception $e)
+		{
+			// Executed only in PHP 5, will not be reached in PHP 7
+			echo 'Выброшено исключение: ', $e->getMessage(), "\n";
+			echo '<pre>'; print_r( $e ); echo '</pre>' . __FILE__ . ' ' . __LINE__;
+			die(__FILE__ .' '. __LINE__ );
+		} catch (Throwable $e)
+		{
+			// Executed only in PHP 7, will not match in PHP 5
+			echo 'Выброшено исключение: ', $e->getMessage(), "\n";
+			echo '<pre>'; print_r( $e ); echo '</pre>' . __FILE__ . ' ' . __LINE__;
+			die(__FILE__ .' '. __LINE__ );
+		}
+		return $res ;
+	}
 	/**
 	 * Админ панель - список товаров
 	 * index.php?option=com_jshopping&controller=products&category_id=0
@@ -94,9 +141,32 @@ class plgJshoppingAdminExsel_Products extends JPlugin {
 	 * @since version
 	 */
 	function onBeforeDisplayListProductsView(&$view) {
-		 		
+		   
 	    $doc = JFactory::getDocument();
 		$bar = JToolBar::getInstance('toolbar');
+//		$pars = $this->PluginSetting();
+		
+		$plugin = \Joomla\CMS\Plugin\PluginHelper::getPlugin('jshoppingadmin', 'exsel_products');
+		$Registry = new \Joomla\Registry\Registry();
+		$params = $Registry->loadObject( json_decode( $plugin->params )) ;
+  
+		$step = $params->get('step' , 100 );
+		
+		$columnSlug = new stdClass() ;
+		$fieldNameColumn = $params->get('field-name' , [] ) ;
+		$is_price_alias = false ; 
+		foreach ( $fieldNameColumn as $item)
+		{
+		    $index_column = $item->index_column ;
+		    $columnSlug->{$index_column} = $item->alias ;
+			
+			if( $item->is_price )
+			{
+				$is_price_alias = $item->alias ;
+			}#END IF
+		    
+		    
+		}#END FOREACH
 		
 		$domain = str_replace( '/administrator/' , '' ,  JURI::base());
 	  
@@ -105,8 +175,6 @@ class plgJshoppingAdminExsel_Products extends JPlugin {
 		$dhtml .= "<span class=\"icon-options\" aria-hidden=\"true\"></span>".$title."</button>"; //HTML кнопки
 		$bar->appendButton('Custom', $dhtml, 'list');//давляем ее на тулбар
 		
-  
-		
 		$expCoreSetting = array(
 		        'siteUrlsiteUrl' => $domain ,
 			    'domain' => $domain ,
@@ -114,16 +182,21 @@ class plgJshoppingAdminExsel_Products extends JPlugin {
         );
 		$doc->addScriptOptions('expCoreSetting'  , $expCoreSetting );
 		
-		
-		
 		$fileUploadCoreSetting = array(
 			'siteUrlsiteUrl' => $domain ,
 			'domain' => $domain ,
 			'elementBtn' => 'exsel_products-btn' ,
 		);
 		$doc->addScriptOptions('fileUploadCoreSetting'  , $fileUploadCoreSetting );
+		
+		
 		$fileUploadCoreSetting = json_encode( [
 			'DEBAG' => true,
+			'Plugin' => [
+			        'gorup' => 'jshoppingadmin' ,
+                    'name' => 'exsel_products' ,
+                    'method' => ''
+            ],
 			'window' => [
 				'head' => 'Загрузить файлы',
 			],
@@ -131,32 +204,30 @@ class plgJshoppingAdminExsel_Products extends JPlugin {
 			'urlHandler' => $domain . '/libraries/GNZ11/assets/js/plugins/jQuery/file_upload/server/php/index_upl.php',
             'upload_dir' => '/price/' ,
             'upload_url' => $domain . '/price/' ,
-		
-		] );
+			'worksheet' => [
+				'step' => $step ,
+				'columnSlug' => $columnSlug ,
+				'is_price_alias' => $is_price_alias ,
+				'manufacturer_code_rewrite' => $params->get('manufacturer_code_rewrite' , 0 ) ,
+			]
+        ]);
 		$doc->addScriptDeclaration('
 		    window.fileUploadCoreSetting = '.$fileUploadCoreSetting.'
 		');
-		
-		
-		
 		$doc->addScriptDeclaration("Joomla.submitbutton = function(pressbutton) {
-	if(pressbutton=='exsel_products.loadPrice'){
-		if( typeof window.expCore === 'undefined'  ){
-		    var url = '".$domain."/plugins/jshoppingadmin/exsel_products/asset/js/core.js';
-		    var script = document.createElement('script')
-            script.type = 'text/javascript';
-		    script.src = url;
-            document.getElementsByTagName('head')[0].appendChild(script);
-            
-		}
-		
-	
-	}else{
-		document.adminForm.task.value=pressbutton;
-		submitform(pressbutton);
-	}
-	
-}");
+            if(pressbutton=='exsel_products.loadPrice'){
+                if( typeof window.expCore === 'undefined'  ){
+                    var url = '".$domain."/plugins/jshoppingadmin/exsel_products/asset/js/core.js';
+                    var script = document.createElement('script')
+                    script.type = 'text/javascript';
+                    script.src = url;
+                    document.getElementsByTagName('head')[0].appendChild(script);
+                }
+            }else{
+                document.adminForm.task.value=pressbutton;
+                submitform(pressbutton);
+            }
+        }");
 	
 	}
 	
@@ -198,7 +269,7 @@ class plgJshoppingAdminExsel_Products extends JPlugin {
 			return;
 		}
 ?>
-	<li><a href="#product_similar" data-toggle="tab"><?php echo JText::_('ADDON_JSHOPPING_SIMILAR_PRODUCTS') ?></a></li>
+	    <li><a href="#product_similar" data-toggle="tab"><?php echo JText::_('ADDON_JSHOPPING_SIMILAR_PRODUCTS') ?></a></li>
 <?php
 	}
 	

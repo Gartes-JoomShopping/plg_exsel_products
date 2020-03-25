@@ -12,10 +12,103 @@
 	<files>
 		<folder>asset</folder>
 		<folder>language</folder>
+		<folder>Helpers</folder>
 		<filename plugin="exsel_products">exsel_products.php</filename>
 		<filename>exsel_products_update.xml</filename>
 		<filename>README.md</filename>
 	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<!-- Шаг строк отправки на сервер для обновления				-->
+				<field name="step"
+					type="text"
+					default="100"
+					class="step "
+					readonly=""
+					required="true"
+					label="EXSEL_PRODUCTS_STEP"
+					description="EXSEL_PRODUCTS_STEP_DESC"
+					showon=""
+					filter="int" />
+				<!-- Переписывать артикул				-->
+				<field name="manufacturer_code_rewrite"
+					type="radio"
+					default="0"
+					label="EXSEL_PRODUCTS_MANUFACTURER_CODE_REWRITE"
+					description="EXSEL_PRODUCTS_MANUFACTURER_CODE_REWRITE_DESC"
+					class="btn-group btn-group-yesno">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				 
+				<field
+						name="field-name"
+						type="subform"
+						label="Subform Field"
+						description="Subform Field Description"
+						multiple="true"
+						min="1"
+						max="15" >
+					<form>
+						<field name="index_column"
+							type="list"
+							default=""
+							required=""
+							label="EXSEL_PRODUCTS_INDEX_COLUMN"
+							description="EXSEL_PRODUCTS_INDEX_COLUMN_DESC"
+							class="index_column "
+							multiple="false"
+							readonly=""
+							showon=""
+							filter="raw" >
+								<option value="">Please Select</option>
+								<option value="A">A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
+								<option value="E">E</option>
+								<option value="F">F</option>
+								<option value="G">G</option>
+								<option value="H">H</option>
+								<option value="I">I</option>
+								<option value="J">J</option>
+								<option value="K">K</option>
+								<option value="L">L</option>
+								<option value="M">M</option>
+							</field>
+						<field name="alias"
+							type="text"
+							default=""
+							class="alias "
+							readonly=""
+							required=""
+							label="EXSEL_PRODUCTS_ALIAS"
+							description="EXSEL_PRODUCTS_ALIAS_DESC"
+							showon=""
+							filter="raw" />
+						<field name="is_price"
+							type="radio"
+							default="0"
+							label="EXSEL_PRODUCTS_IS_PRICE"
+							description="EXSEL_PRODUCTS_IS_PRICE_DESC"
+							class="btn-group btn-group-yesno is_price">
+							<option value="1">JYES</option>
+							<option value="0">JNO</option>
+						</field>
+
+
+
+
+					</form>
+				</field>
+
+			</fieldset>
+		</fields>
+	</config>
+
+
 	<updateservers>
 		<server type="extension" name="JoomShopping - Loading products from Excel Update Site">https://raw.githubusercontent.com/gartes/vm_salesdrive/master/vm_salesdrive_update_server.xml</server>
 	</updateservers>
