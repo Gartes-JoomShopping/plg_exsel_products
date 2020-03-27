@@ -82,7 +82,7 @@
 		}
 		
 		/**
-		 * Обновить цены в массиве товаров
+		 * Обновить цены в массиве товаров (Слияние массивов)
 		 * @param $findRes
 		 *
 		 * @return mixed
@@ -104,41 +104,43 @@
 			
 			$manufacturer_code_rewrite = $Setting['worksheet']['manufacturer_code_rewrite'] ;
 			
+			
+			
 			foreach ($SendData as $item)
 			{
 				$name = $item['Наименование'] ;
 				if( !isset( $findRes[$name] ) ) { continue ; }#END IF
-				
 				$price = $item[$is_price_alias] ;
-				
-				
 				$currency = $item[$is_currency] ;
+				
+				
 				
 				if( isset ( $currency_Arr[ $currency ] ) )
 				{
 					$currency_id = $currency_Arr[$currency] ;
 					$findRes[$name]->currency_id = $currency_id ;
+					
+					
 				}else{
 					if( $currency_default )
 					{
 						$findRes[$name]->currency_id = $currency_default ;
 					}#END IF
 				}#END IF
-				
-				
-				
 				$findRes[$name]->product_price = $price ;
 				$findRes[$name]->min_price  = $price ;
-				
 				if( $manufacturer_code_rewrite )
 				{
 					$findRes[$name]->manufacturer_code  = $item['Код'] ;
 				}#END IF
+				
 				$findRes[$name]->date_modify  = $now ;
 				
-				
-				
 			}#END FOREACH
+			
+//			echo'<pre>';print_r( $findRes );echo'</pre>'.__FILE__.' '.__LINE__;
+//			die(__FILE__ .' '. __LINE__ );
+			
 			return $findRes ;
 		}
 		
@@ -150,7 +152,7 @@
 		 */
 		private function _prepareCurrencyArr(){
 			$Setting = $this->app->input->get('Setting' , [] , 'ARRAY') ;
-			$relations = $Setting['Plugin']['setting']['field-currency_relations'] ;
+			$relations = $this->Setting['Plugin']['setting']['field-currency_relations'] ;
 			$returnArr = [] ;
 			foreach ($relations as $relation)
 			{
@@ -159,7 +161,6 @@
 			}#END FOREACH
 			return $returnArr ;
 		}
-		
 		/**
 		 * Обновление товаров в БД
 		 * @param $prodArr
@@ -177,6 +178,7 @@
 				$fields = array(
 					$this->db->quoteName('manufacturer_code') . ' = ' . $this->db->quote( $item->manufacturer_code ) ,
 					$this->db->quoteName('date_modify') . ' = ' . $this->db->quote( $item->date_modify ) ,
+					$this->db->quoteName('currency_id') . ' = ' . $this->db->quote( $item->currency_id ) ,
 					$this->db->quoteName('product_price') . ' = ' . $this->db->quote( $item->product_price ) ,
 					$this->db->quoteName('min_price') . ' = ' . $this->db->quote( $item->min_price ) ,
 				);

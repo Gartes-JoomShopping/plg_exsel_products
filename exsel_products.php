@@ -139,6 +139,7 @@ class plgJshoppingAdminExsel_Products extends JPlugin {
 	 * index.php?option=com_jshopping&controller=products&category_id=0
 	 * @param $view
 	 * @since version
+     * @uses /administrator/components/com_jshopping/controllers/products.php
 	 */
 	function onBeforeDisplayListProductsView(&$view) {
 		   
