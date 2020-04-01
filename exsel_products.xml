@@ -162,12 +162,11 @@
 
 
 	<updateservers>
-		<server type="extension" name="JoomShopping - Loading products from Excel Update Site">https://raw.githubusercontent.com/gartes/vm_salesdrive/master/vm_salesdrive_update_server.xml</server>
+		<server type="extension" name="JoomShopping - Loading products from Excel Update Site">https://raw.githubusercontent.com/Gartes-JoomShopping/plg_exsel_products/master/exsel_products_update.xml</server>
 	</updateservers>
 </extension>
 <!--
 Load - Install
 https://github.com/gartes/GNZ11/archive/master.zip
 https://github.com/Gartes-JoomShopping/plg_exsel_products/archive/master.zip
-
 -->
