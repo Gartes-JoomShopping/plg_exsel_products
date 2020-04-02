@@ -1,6 +1,6 @@
 <updates>
     <update>
-        <name>vm Sales Drive</name>
+        <name>plgExselProductsUpdate</name>
         <description><![CDATA[JoomShopping - Loading products from Excel]]></description>
         <type>plugin</type>
         <folder>jshoppingadmin</folder>
