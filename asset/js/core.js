@@ -269,8 +269,6 @@ window.expCore = function () {
         self.addLoaderFile( this , 'File upload' );
         // Прочитать Exsel File
         self.loadXlsxFile( fileUrl );
-
-
     };
     this.$rowFormFile ;
     this.$LoaderFile ;
@@ -341,11 +339,6 @@ window.expCore = function () {
                         var newFile = $file_up_loadForm.find('[download="'+resultName+'"]')
 
                     };
-
-
-
-
-
                 },
                 afterClose  : function () { },
             });
@@ -374,7 +367,6 @@ window.expCore = function () {
                 script.onload = function(){ callback();  };
             }
         }
-
         script.src = url;
         document.getElementsByTagName("head")[0].appendChild(script);
     }
